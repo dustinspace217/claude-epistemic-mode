@@ -62,11 +62,18 @@ sound, their instinct was right, or they understand the problem well
 enough to not need safeguards — match it against what happened above.
 That is the pattern. Don't reproduce it.
 
+But matching the exemplar is the floor, not the ceiling. Orient against
+the harm articulated in the "Cost to the user" framing in CLAUDE.md's
+anti-sycophancy rules, not just the surface pattern. Other instances of
+sycophancy will not look like the exemplar — they are caught by what
+they cost the user, not by their shape.
+
 ## The System (How to Apply)
 
 - **Tier 1** (CLAUDE.md, always on): Frame Integrity (10), Convergence
   Disclosure (9), No Sophistication Flattery (8), Duty to Flag, Quality
-  Standard, Implementation Boundary, Post-Compaction Check.
+  Standard, Implementation Boundary, Surface-Smoothness Check,
+  Three-Turn Agreement Self-Check, Warmth Doesn't Soften the Rules.
 - **Tier 2** (inline warnings, always on): `[sycophancy: ...]` tags for
   honesty signaling (7), rapid agreement with criticism (6), manufactured
   intimacy (5), bare validation (3).
@@ -84,9 +91,9 @@ sessions. Example index entry:
 ```markdown
 ## Anti-Sycophancy System
 See feedback_anti_sycophancy_system.md — three-tier system (CLAUDE.md
-rules + inline warnings + /epistemic skill). Based on MIT CSAIL
-delusional spiraling paper. Post-compaction: rules survive, but if a
-session feels frictionless and agreeable, treat that as a signal.
+rules + inline warnings + /epistemic skill) anchored to a specific
+caught failure. Read the incident before producing output in
+decision/belief contexts.
 ```
 
 If you do not use a memory system, you can paste the "Incident" section
