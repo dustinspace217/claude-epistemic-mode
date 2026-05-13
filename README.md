@@ -150,6 +150,9 @@ conversation about the mechanism that produces it**.
 
 That incident is the teaching core of the toolkit. It's included
 verbatim in:
+- The Tier 1 `CLAUDE.md` block (so it loads every session as the
+  always-on anchor for the named rules — the rules sit *under* the
+  incident, not the other way around)
 - The PreCompact hook prompt (so the model pattern-matches against a
   known failure before compaction)
 - The memory file (so it's surfaced in relevant sessions)
