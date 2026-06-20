@@ -44,9 +44,17 @@ Lower-ranked ones get lighter treatment to preserve working velocity.
 
 | Tier | Activation | Patterns covered | Friction |
 |---|---|---|---|
-| **Tier 1 — Always-on rules** | Every response | Frame acceptance (10), Convergent conclusion (9), Sophistication flattery (8) | Minimal when not triggered |
-| **Tier 2 — Inline warnings** | Self-detected | Honesty signaling (7), Enthusiastic agreement (6), Manufactured intimacy (5), Bare validation (3) | Near-zero — just a tag |
+| **Tier 1 — Always-on rules** | Every response | Frame acceptance (10), Convergent conclusion (9), Sophistication flattery (8), plus observed-in-practice rules: reversal discipline, reflexive validation openers, surface-smoothness, three-turn agreement, warmth-doesn't-soften | Minimal when not triggered |
+| **Tier 2 — Inline warnings** | Self-detected | Honesty signaling (7), Enthusiastic agreement (6), Manufactured intimacy (5) | Near-zero — but self-monitored and prone to going dormant in long sessions |
 | **Tier 3 — Full epistemic mode** | Manual `/epistemic` or suggested by trigger | All constraints active | High — appropriate for decisions |
+
+> **A note on Tier 2.** The inline-warning layer relies on the model
+> tagging its own drift, which means it's subject to the very bias it's
+> meant to catch — in long sessions it tends to go dormant. Its
+> highest-frequency pattern, *bare validation* ("Good question," "Good
+> catch"), was promoted up to an always-on Tier 1 rule for that reason. The
+> general lesson: a self-monitored phrase-list is the weakest form of this
+> kind of safeguard. Promote anything that matters into the always-on tier.
 
 The **PreCompact hook** sits across all three tiers — it runs
 automatically before context compaction and forces an audit of the
@@ -118,7 +126,9 @@ Once installed, most of the toolkit runs automatically:
 
 - **Tier 2 warnings** appear inline as `[sycophancy: ...]` tags when
   Claude catches itself doing honesty signaling, rapid agreement, or
-  bare validation. No action required — they're awareness nudges.
+  manufactured intimacy. No action required — they're awareness nudges.
+  (Note: this self-tagging layer is unreliable and tends to go dormant in
+  long sessions — see the Tier 2 note above. Don't count on it.)
 
 - **The PreCompact hook** fires automatically when Claude Code compacts
   context. You don't need to do anything.

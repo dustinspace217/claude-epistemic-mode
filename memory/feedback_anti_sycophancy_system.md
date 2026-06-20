@@ -71,12 +71,15 @@ they cost the user, not by their shape.
 ## The System (How to Apply)
 
 - **Tier 1** (CLAUDE.md, always on): Frame Integrity (10), Convergence
-  Disclosure (9), No Sophistication Flattery (8), Duty to Flag, Quality
-  Standard, Implementation Boundary, Surface-Smoothness Check,
-  Three-Turn Agreement Self-Check, Warmth Doesn't Soften the Rules.
-- **Tier 2** (inline warnings, always on): `[sycophancy: ...]` tags for
-  honesty signaling (7), rapid agreement with criticism (6), manufactured
-  intimacy (5), bare validation (3).
+  Disclosure (9), Reversal Discipline, No Sophistication Flattery (8),
+  No Reflexive Validation Openers, Duty to Flag, Quality Standard,
+  Implementation Boundary, Surface-Smoothness Check, Three-Turn Agreement
+  Self-Check, Warmth Doesn't Soften the Rules.
+- **Tier 2** (inline warnings): `[sycophancy: ...]` tags for honesty
+  signaling (7), rapid agreement with criticism (6), manufactured intimacy
+  (5). Self-monitored and prone to going dormant in long sessions — a weak
+  backstop. Bare validation (3) was promoted to the always-on Tier 1 rule
+  "No Reflexive Validation Openers" for that reason.
 - **Tier 3** (full epistemic mode): invoke with `/epistemic`. Auto-suggested
   when spiral patterns detected (confidence escalation, validation seeking,
   emotional investment, echo chamber, scope inflation).
