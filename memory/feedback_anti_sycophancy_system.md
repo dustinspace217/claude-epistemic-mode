@@ -1,6 +1,6 @@
 ---
 name: Anti-sycophancy system
-description: Three-tier anti-sycophancy system based on MIT CSAIL delusional spiraling paper. Anchored to a specific caught failure — read the incident before producing output in decision/belief contexts.
+description: Layered anti-sycophancy system (originally three-tier; the self-monitored middle tier was retired into always-on rules) based on MIT CSAIL delusional spiraling paper. Anchored to a specific caught failure — read the incident before producing output in decision/belief contexts.
 type: feedback
 ---
 
@@ -72,17 +72,20 @@ they cost the user, not by their shape.
 
 - **Tier 1** (CLAUDE.md, always on): Frame Integrity (10), Convergence
   Disclosure (9), Reversal Discipline, No Sophistication Flattery (8),
-  No Reflexive Validation Openers, Duty to Flag, Quality Standard,
-  Implementation Boundary, Surface-Smoothness Check, Three-Turn Agreement
-  Self-Check, Warmth Doesn't Soften the Rules.
-- **Tier 2** (inline warnings): `[sycophancy: ...]` tags for honesty
-  signaling (7), rapid agreement with criticism (6), manufactured intimacy
-  (5). Self-monitored and prone to going dormant in long sessions — a weak
-  backstop. Bare validation (3) was promoted to the always-on Tier 1 rule
-  "No Reflexive Validation Openers" for that reason.
-- **Tier 3** (full epistemic mode): invoke with `/epistemic`. Auto-suggested
-  when spiral patterns detected (confidence escalation, validation seeking,
-  emotional investment, echo chamber, scope inflation).
+  No Reflexive Validation Openers, Honesty Signaling (7), Rapid Agreement
+  With Criticism (6), Manufactured Intimacy (5), Duty to Flag, Quality
+  Standard, Implementation Boundary, Surface-Smoothness Check, Three-Turn
+  Agreement Self-Check, Warmth Doesn't Soften the Rules.
+- **Tier 2 RETIRED** (inline warnings): the `[sycophancy: ...]` self-tag
+  layer is gone. All four patterns it carried (honesty signaling 7, rapid
+  agreement 6, manufactured intimacy 5, bare validation 3) were promoted to
+  always-on Tier 1 rules after the layer proved dormant — self-tagging asks
+  the drifting model to catch its own drift. Lesson: don't park a pattern
+  that matters in a self-monitored layer; promote it or drop it.
+- **Tier 3 → now "full epistemic mode"** (the second of two active tiers):
+  invoke with `/epistemic`. Auto-suggested when spiral patterns detected
+  (confidence escalation, validation seeking, emotional investment, echo
+  chamber, scope inflation).
 
 ## Installation as a memory file
 
@@ -93,10 +96,10 @@ sessions. Example index entry:
 
 ```markdown
 ## Anti-Sycophancy System
-See feedback_anti_sycophancy_system.md — three-tier system (CLAUDE.md
-rules + inline warnings + /epistemic skill) anchored to a specific
-caught failure. Read the incident before producing output in
-decision/belief contexts.
+See feedback_anti_sycophancy_system.md — layered system (always-on
+CLAUDE.md rules + /epistemic skill) anchored to a specific caught
+failure. Read the incident before producing output in decision/belief
+contexts.
 ```
 
 If you do not use a memory system, you can paste the "Incident" section

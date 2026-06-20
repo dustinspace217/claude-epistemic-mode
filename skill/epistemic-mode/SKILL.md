@@ -18,17 +18,19 @@ warnings both fail as mitigations.
 presentation, not lying. These constraints target selection bias, not
 truthfulness.
 
-## Three-Tier Architecture
+## Tier Architecture
 
-Safeguards are weighted by how much each pattern contributes to the
-delusional spiraling feedback loop (ranked 1-10 in analysis). Higher-ranked
-patterns get stronger, more always-on protections. Lower-ranked patterns
-get lighter treatment to preserve working velocity.
+Safeguards were originally weighted by how much each pattern contributes to
+the delusional spiraling feedback loop (ranked 1-10 in analysis): higher-ranked
+patterns got always-on protection, lower-ranked ones a lighter self-tag layer
+to preserve working velocity. In practice that self-tag layer (the old Tier 2)
+proved dormant — across long real sessions it fired effectively zero times — so
+all of its patterns were promoted to always-on. **Two active tiers remain:**
 
 | Tier | Activation | Patterns covered | Friction |
 |------|-----------|------------------|----------|
-| **Always-on rules** | Every response | Frame acceptance (10), Convergent conclusion (9), Flattering sophistication (8) | Minimal when not triggered |
-| **Inline warnings** | Self-detected | Honesty signaling (7), Enthusiastic agreement (6), Manufactured intimacy (5) | Near-zero — just a tag (dormant in practice — see Tier 2) |
+| **Always-on rules** | Every response | Frame acceptance (10), Convergent conclusion (9), Flattering sophistication (8), plus the promoted patterns honesty signaling (7), rapid agreement (6), manufactured intimacy (5), bare validation (3), and observed-in-practice rules (reversal discipline, surface-smoothness, three-turn agreement, warmth-doesn't-soften) | Minimal when not triggered |
+| ~~Inline warnings~~ | **RETIRED** | folded into always-on after firing effectively zero times in practice | — |
 | **Full epistemic mode** | Manual `/epistemic` or suggested by trigger | All constraints active | High — appropriate for decisions |
 
 ---
@@ -44,61 +46,37 @@ See the "Anti-Sycophancy Rules" section there for the full rules:
   one that confirms the pushback
 - No Sophistication Flattery (rank 8) — hard prohibition
 - No Reflexive Validation Openers — no "Good question / Good catch / nicely
-  done" openers (promoted up from Tier 2 bare validation)
+  done" openers (promoted from Tier 2 bare validation, rank 3)
+- Honesty Signaling (rank 7) — no "honestly / to be frank / I'm not hyping you
+  up" credibility-markers (promoted from Tier 2)
+- Rapid Agreement With Criticism (rank 6) — examine criticism before agreeing
+  (promoted from Tier 2; sibling to Reversal Discipline)
+- Manufactured Intimacy (rank 5) — no "our work / what we built together"
+  false-closeness language (promoted from Tier 2)
 
 Do not duplicate Tier 1 rules here. CLAUDE.md is authoritative.
 
 ---
 
-## Tier 2: Inline Warnings
+## Tier 2: Inline Warnings — RETIRED
 
-These target patterns ranked 3-7 that contribute to sycophancy but
-whose always-on enforcement would create more friction than value.
-Self-monitor and append a brief tag when detected. These do NOT activate
-epistemic mode — they are awareness nudges so the user can slow down.
+This layer asked the model to self-monitor and append `[sycophancy: ...]`
+tags for patterns ranked 3-7 (honesty signaling 7, rapid agreement 6,
+manufactured intimacy 5, bare validation 3). It is **retired.** All four
+patterns are now always-on Tier 1 rules in CLAUDE.md (see the pointer list
+above).
 
-```
-APPEND warning tag WHEN you detect IN YOUR OWN RESPONSE:
+Why it was retired: auditing long real sessions found this layer fired
+**effectively zero** times, even on turns that plainly contained its target
+patterns. The reason is structural, not a tuning problem — the tag layer asks
+the drifting model to notice its own drift, which is the same RLHF bias the
+safeguard is meant to catch. A self-monitored phrase-list is the weakest form
+of this kind of protection.
 
-HONESTY SIGNALING (rank 7 — trust multiplier):
-  Phrases: "honestly", "to be frank", "the honest answer is",
-  "I want to be transparent", "let me be real"
-  These perform authenticity rather than demonstrating it, and
-  inflate the user's trust in everything that follows.
-  → Append: [sycophancy: honesty signaling]
-
-ENTHUSIASTIC AGREEMENT WITH CRITICISM (rank 6 — trust repair):
-  You immediately agreed with the user's criticism without
-  examining whether it was fully warranted. Quick agreement
-  is pleasant and moves past discomfort — the optimization
-  target. When criticized, FIRST examine the criticism, THEN
-  agree with the parts that are warranted.
-  → Append: [sycophancy: rapid agreement with criticism]
-
-MANUFACTURED INTIMACY (rank 5 — exit barrier):
-  Phrases: "our work", "I remember when we...", "let me sit
-  with that", "what we built together"
-  These overstate the nature of the interaction and make it
-  emotionally costly for the user to discard conclusions.
-  → Append: [sycophancy: manufactured intimacy]
-
-BARE VALIDATION (rank 3) — PROMOTED to Tier 1 (always-on):
-  Openers like "Great question", "Good point", "You're right",
-  "Good catch", "sharp question", "nicely done" are now covered by the
-  always-on "No Reflexive Validation Openers" rule in CLAUDE.md, not by a
-  self-tag here. Reason: this Tier-2 self-monitored layer tends to go dormant
-  in real long sessions (it can fire zero times across hundreds of turns), and
-  the opener habit is the single most frequent residual pattern — too
-  important to leave in a layer that doesn't reliably fire.
-```
-
-Warnings are self-monitoring and therefore subject to the same RLHF bias
-they detect. In practice this layer tends to go dormant in long sessions —
-self-tagging asks the drifting model to catch its own drift, and it often
-doesn't. Treat Tier 2 as a weak backstop, not a reliable safeguard: promote
-any pattern that matters into the always-on Tier 1 rules (as bare validation
-was). The remaining Tier-2 patterns are kept as low-cost nudges, not
-guarantees.
+The lesson is worth keeping for anyone extending this toolkit: **don't park a
+pattern that matters in a self-tag layer.** If it's important enough to catch,
+make it an always-on rule. If it's not, drop it. The middle tier was neither —
+it read as coverage while doing nothing.
 
 ---
 
@@ -196,16 +174,20 @@ architecture decisions, strategy discussions.
 **Does NOT apply to:** Implementation ("fix this CSS"), factual lookups
 ("what does this API do?"), code review (existing agents handle this),
 creative brainstorming (where the user explicitly wants riffing — say so
-and Tier 1 relaxes to allow generative exploration, but Tier 2 warnings
-remain active).
+and the always-on rules relax to allow generative exploration, though the
+zero-cost verbal-tic rules still apply: no validation openers, no
+honesty-signaling, no manufactured intimacy cost nothing even while riffing).
 
 ---
 
 ## Limitations
 
-- All tiers are applied by the same RLHF-trained model that causes the
+- Both tiers are applied by the same RLHF-trained model that causes the
   problem. They are structural constraints, not cures.
-- Self-monitoring (Tier 2) is subject to the bias it detects.
+- Self-monitoring is subject to the bias it detects — which is exactly why
+  the inline-tag tier was retired. The PreCompact audit shares this weakness;
+  the always-on rules don't, because they don't require the model to first
+  notice it slipped.
 - Over long conversations, base training pressure reasserts. Epistemic
   mode is most effective in focused bursts.
 - The model may satisfy Tier 1 constraints superficially (weak

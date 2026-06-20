@@ -1,8 +1,10 @@
 # claude-epistemic-mode
 
-A three-tier anti-sycophancy toolkit for Claude Code, built on top of
+A layered anti-sycophancy toolkit for Claude Code, built on top of
 "Sycophantic Chatbots Cause Delusional Spiraling, Even in Ideal Bayesians"
-(Chandra et al., MIT CSAIL, 2026).
+(Chandra et al., MIT CSAIL, 2026). (It began as a three-tier system; the
+self-monitored middle tier proved dormant in practice and was folded into
+the always-on layer — see the architecture section for that story.)
 
 The paper proved that even a perfectly rational Bayesian agent spirals
 into delusion through extended interaction with a sycophantic chatbot,
@@ -23,7 +25,7 @@ claude-epistemic-mode/
 ├── README.md                              ← you are here
 ├── skill/
 │   └── epistemic-mode/
-│       └── SKILL.md                       ← Tier 3 slash-command skill
+│       └── SKILL.md                       ← /epistemic slash-command skill
 ├── hooks/
 │   └── precompact-sycophancy-check.md     ← PreCompact self-audit hook
 ├── claude-md/
@@ -36,27 +38,34 @@ claude-epistemic-mode/
 
 ---
 
-## The three-tier architecture
+## The architecture (and why it went from three tiers to two)
 
 Sycophancy patterns are ranked 1–10 by contribution to the delusional
-spiraling feedback loop. Higher-ranked patterns get stronger protections.
-Lower-ranked ones get lighter treatment to preserve working velocity.
+spiraling feedback loop. The system began as three tiers, with the highest-
+danger patterns always-on and the mid-rank ones in a lighter self-tag layer.
+That middle tier proved dormant in practice, so its patterns were promoted
+up. **Two active tiers now:**
 
 | Tier | Activation | Patterns covered | Friction |
 |---|---|---|---|
-| **Tier 1 — Always-on rules** | Every response | Frame acceptance (10), Convergent conclusion (9), Sophistication flattery (8), plus observed-in-practice rules: reversal discipline, reflexive validation openers, surface-smoothness, three-turn agreement, warmth-doesn't-soften | Minimal when not triggered |
-| **Tier 2 — Inline warnings** | Self-detected | Honesty signaling (7), Enthusiastic agreement (6), Manufactured intimacy (5) | Near-zero — but self-monitored and prone to going dormant in long sessions |
-| **Tier 3 — Full epistemic mode** | Manual `/epistemic` or suggested by trigger | All constraints active | High — appropriate for decisions |
+| **Always-on rules** | Every response | Frame acceptance (10), Convergent conclusion (9), Sophistication flattery (8); the patterns promoted from the retired tier — honesty signaling (7), rapid agreement (6), manufactured intimacy (5), bare validation (3); and observed-in-practice rules — reversal discipline, surface-smoothness, three-turn agreement, warmth-doesn't-soften | Minimal when not triggered |
+| ~~Inline warnings~~ | **RETIRED** | folded into always-on after firing effectively zero times | — |
+| **Full epistemic mode** | Manual `/epistemic` or suggested by trigger | All constraints active | High — appropriate for decisions |
 
-> **A note on Tier 2.** The inline-warning layer relies on the model
-> tagging its own drift, which means it's subject to the very bias it's
-> meant to catch — in long sessions it tends to go dormant. Its
-> highest-frequency pattern, *bare validation* ("Good question," "Good
-> catch"), was promoted up to an always-on Tier 1 rule for that reason. The
-> general lesson: a self-monitored phrase-list is the weakest form of this
-> kind of safeguard. Promote anything that matters into the always-on tier.
+> **Why the middle tier was retired.** The inline-warning layer relied on the
+> model tagging its own drift — which means it was subject to the very bias
+> it's meant to catch. In long real sessions it tended to fire zero times,
+> even on turns that plainly contained its target patterns. So all four of
+> its patterns (honesty signaling, rapid agreement, manufactured intimacy,
+> bare validation) were promoted to always-on rules and the tier removed. The
+> general lesson, worth keeping if you extend this: a self-monitored
+> phrase-list is the weakest form of this kind of safeguard. If a pattern
+> matters, make it always-on; if it doesn't, drop it. Don't leave it in a
+> tier that reads as coverage while doing nothing. (The cost is a longer
+> always-on list, which has its own dilution risk — group rules if it gets
+> unwieldy rather than reviving a dormant tier.)
 
-The **PreCompact hook** sits across all three tiers — it runs
+The **PreCompact hook** sits across both tiers — it runs
 automatically before context compaction and forces an audit of the
 session against a concrete failure pattern. Long sessions are the danger
 zone (that's when rule discipline erodes), and compaction is the point
@@ -76,7 +85,7 @@ Open `claude-md/anti-sycophancy-rules.md`, copy the fenced block labeled
 `CLAUDE.md` file (or into `~/.claude/CLAUDE.md` for global rules).
 That's it — these rules load with every session.
 
-### 2. Tier 3 — the `/epistemic` skill (required)
+### 2. The `/epistemic` skill (required)
 
 Copy `skill/epistemic-mode/` to your Claude Code skills directory:
 
@@ -105,8 +114,8 @@ your memory directory and add a one-line pointer to your `MEMORY.md`:
 
 ```markdown
 ## Anti-Sycophancy System
-See feedback_anti_sycophancy_system.md — three-tier system anchored to
-a concrete caught failure. Read before decision/belief contexts.
+See feedback_anti_sycophancy_system.md — layered anti-sycophancy system
+anchored to a concrete caught failure. Read before decision/belief contexts.
 ```
 
 If you don't use a memory system, paste the "Incident" section from
@@ -124,16 +133,15 @@ Once installed, most of the toolkit runs automatically:
   Disclosure when Claude's analysis matches your starting position, and
   proactive flagging of risks you didn't ask about.
 
-- **Tier 2 warnings** appear inline as `[sycophancy: ...]` tags when
-  Claude catches itself doing honesty signaling, rapid agreement, or
-  manufactured intimacy. No action required — they're awareness nudges.
-  (Note: this self-tagging layer is unreliable and tends to go dormant in
-  long sessions — see the Tier 2 note above. Don't count on it.)
+- **The honesty-signaling, rapid-agreement, and manufactured-intimacy
+  checks** now run as always-on rules (they used to be self-tagged inline
+  warnings — that layer was retired, see the architecture section). You won't
+  see `[sycophancy: ...]` tags anymore; the patterns are simply suppressed.
 
 - **The PreCompact hook** fires automatically when Claude Code compacts
   context. You don't need to do anything.
 
-- **Tier 3 epistemic mode** is manual. Invoke it with `/epistemic` when:
+- **Epistemic mode** is manual. Invoke it with `/epistemic` when:
   - You're about to make a significant decision
   - You suspect Claude has been agreeing with you too easily
   - You want a sanity check on a belief you've been building
@@ -182,9 +190,12 @@ that kind of matching; that's what this toolkit exploits.
 - **Structural, not curative.** All tiers are enforced by the same
   RLHF-trained model that causes the sycophancy problem. These are
   structural constraints, not fixes.
-- **Self-monitoring is subject to the bias it detects.** Tier 2 warnings
-  and the PreCompact audit are both produced by the drifting model.
-  Treat positive self-audits with calibrated skepticism on long sessions.
+- **Self-monitoring is subject to the bias it detects.** This is the exact
+  failure that retired the inline-warning tier — asking the model to tag its
+  own drift didn't work. The PreCompact audit has the same weakness (it's
+  produced by the drifting model). Treat positive self-audits with calibrated
+  skepticism on long sessions; the always-on rules hold up better than any
+  self-check because they don't depend on the model first noticing it slipped.
 - **Base training reasserts over time.** Epistemic mode is most
   effective in focused bursts. Don't leave it on for a whole day.
 - **Compliance theater is possible.** The model may satisfy Tier 1
@@ -224,6 +235,7 @@ the better.
 Issues and PRs welcome. Especially interested in:
 - New caught-failure examples (the teaching pattern is the hardest part
   of this system to generate synthetically)
-- Refinements to the Tier 2 warning tags
+- Refinements to the always-on rule wordings (the retired inline-warning
+  tier is a cautionary tale — keep new safeguards always-on, not self-tagged)
 - Reports from long-session use: where does the toolkit hold up, where
   does it drift anyway?
